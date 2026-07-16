@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Il corpo tradisce la mente — anteprima layout</title>
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1633787111176715');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1633787111176715&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+<style>
+  :root{
+    --void:#0E0B0C;
+    --void-2:#17110F;
+    --ember:#C4342F;
+    --ember-deep:#6E1D2A;
+    --signal:#E7B24A;
+    --parchment:#F5F0EA;
+    --ash:#9C8F89;
+    --line:#2A1F1C;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--void);
+    color:var(--parchment);
+    font-family: Georgia, 'Times New Roman', serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:480px;margin:0 auto;padding:0 20px;}
+  .display{
+    font-family: 'Arial Black', 'Helvetica Neue', sans-serif;
+    font-weight:900;
+    letter-spacing:-0.01em;
+  }
+  .tag{
+    display:inline-block;
+    font-family:'Courier New', monospace;
+    font-size:11px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--signal);
+    border:1px solid var(--signal);
+    border-radius:4px;
+    padding:4px 10px;
+  }
+  .preview-note{
+    background:#221a18;color:var(--ash);font-family:'Courier New',monospace;
+    font-size:11px;text-align:center;padding:8px;letter-spacing:0.03em;
+  }
+  section{padding:44px 0;border-bottom:1px solid var(--line);}
+  section:last-child{border-bottom:none;}
+  img{max-width:100%;display:block;border-radius:6px;}
+  .img-placeholder{
+    width:100%;border-radius:6px;background:#6E5410;
+  }
+  .cta{
+    display:block;text-align:center;background:var(--ember);color:#FCEBEB;
+    font-family:'Arial', sans-serif;font-weight:700;font-size:15px;
+    padding:15px;border-radius:6px;text-decoration:none;margin-top:16px;
+  }
+  .price-row{display:flex;align-items:baseline;justify-content:center;gap:10px;margin-top:18px;}
+  .price{font-family:'Arial Black',sans-serif;font-weight:900;font-size:26px;color:var(--parchment);}
+  .price-old{font-size:16px;color:var(--ash);text-decoration:line-through;margin-right:8px;}
+  .discount-badge{background:var(--ember);color:#FCEBEB;font-family:'Arial',sans-serif;font-weight:700;font-size:12px;padding:4px 9px;border-radius:4px;}
+  .subline{font-size:15px;line-height:1.6;color:#C7BDB6;margin-top:10px;text-align:center;}
+  .lead{font-size:14px;line-height:1.65;color:#B7ABA4;margin-top:14px;padding-top:14px;border-top:1px solid var(--line);}
+  h1{font-size:34px;line-height:1.1;margin:14px 0 0;text-align:center;}
+  h2{
+    font-family:'Arial',sans-serif;font-weight:700;font-size:22px;
+    color:var(--parchment);margin:0 0 6px;
+  }
+  .section-intro{font-size:14px;color:var(--ash);margin:0 0 22px;line-height:1.5;}
+  .signal{
+    display:flex;gap:14px;align-items:flex-start;
+    background:linear-gradient(180deg, rgba(196,52,47,0.07), rgba(196,52,47,0));
+    border:1px solid var(--line);border-left:3px solid var(--ember);
+    border-radius:8px;
+    padding:16px 16px 16px 14px;margin-bottom:12px;
+  }
+  .signal-label{
+    font-family:'Arial',sans-serif;font-weight:700;font-size:16px;
+    color:var(--parchment);letter-spacing:0.01em;
+  }
+  .signal-desc{font-size:14px;color:#C7BDB6;margin-top:5px;line-height:1.55;}
+  .price-block{
+    background:var(--void-2);border-radius:10px;padding:20px;
+    text-align:center;
+  }
+  .price-block img{width:80px;border-radius:5px;flex-shrink:0;}
+  .reassure{font-size:13px;color:var(--ash);margin-top:6px;line-height:1.5;}
+  .closing{font-family:'Arial Black',sans-serif;font-weight:900;font-size:22px;text-align:center;line-height:1.3;}
+  .review{background:var(--void-2);border-radius:8px;padding:14px 16px;margin-bottom:12px;}
+  .review-stars{color:var(--signal);font-size:13px;letter-spacing:2px;}
+  .review-text{font-size:14px;color:#C7BDB6;margin-top:6px;line-height:1.5;font-style:italic;}
+  .review-author{font-size:12px;color:var(--ash);margin-top:8px;}
+</style>
+</head>
+<body>
+
+<div class="preview-note">ANTEPRIMA LAYOUT — copy provvisorio, non ancora il file finale</div>
+
+<div class="wrap">
+
+  <section>
+    <span class="tag">Leggere i segnali, mascherare i tuoi</span>
+    <h1 class="display">Il corpo tradisce la mente</h1>
+    <p class="subline">Il corpo dice sempre la verità. Anche quando le parole mentono.</p>
+    <p class="lead">Il corpo parla sempre. Sguardo, mani, postura... sono segnali che le persone mandano senza accorgersene, e che quasi nessuno sa leggere. Questo libro ti insegna a decifrarli negli altri, e a controllare i tuoi.</p>
+
+    <img src="libro-cartaceo.png" alt="Mockup del libro Il corpo tradisce la mente" style="width:200px;margin:20px auto 0;">
+
+    <div class="price-row">
+      <span class="price-old">39,97€</span><span class="price">14,97€</span>
+      <span class="discount-badge">-63%</span>
+    </div>
+    <a href="https://buy.stripe.com/bJe3cvdgRdKJeMj8IV6wE04" class="cta" onclick="fbq('track','InitiateCheckout');">Inizia a leggere i segnali</a>
+  </section>
+
+  <section>
+    <span class="tag">6 segnali da riconoscere</span>
+    <h2 style="margin-top:14px;">Cosa imparerai</h2>
+    <p class="section-intro">Sei capitoli, un segnale alla volta. Teoria essenziale, esempi reali, esercizi per allenare l'occhio a coglierli sul momento.</p>
+
+    <img src="libro-pagine-dietro.png" alt="Il libro con le pagine in evidenza" style="width:100%;height:auto;margin:0 auto 22px;">
+
+    <div class="signal">
+      <div>
+        <div class="signal-label">Espressioni e microespressioni</div>
+        <div class="signal-desc">Fronte, occhi, labbra: cosa rivelano in meno di un secondo.</div>
+      </div>
+    </div>
+    <div class="signal">
+      <div>
+        <div class="signal-label">Occhi e sguardo</div>
+        <div class="signal-desc">Dove guarda quando pensa, mente o si distrae.</div>
+      </div>
+    </div>
+    <div class="signal">
+      <div>
+        <div class="signal-label">Mani e braccia</div>
+        <div class="signal-desc">I micro-gesti che tradiscono nervosismo o sicurezza.</div>
+      </div>
+    </div>
+    <div class="signal">
+      <div>
+        <div class="signal-label">La bugia</div>
+        <div class="signal-desc">5 step per capire quando qualcuno non ti dice la verità.</div>
+      </div>
+    </div>
+    <div class="signal">
+      <div>
+        <div class="signal-label">Love language</div>
+        <div class="signal-desc">I segnali d'attrazione, e come li porti in un appuntamento.</div>
+      </div>
+    </div>
+    <div class="signal">
+      <div>
+        <div class="signal-label">Carisma e postura</div>
+        <div class="signal-desc">Le power pose, e come costruire una presenza che si nota.</div>
+      </div>
+    </div>
+
+    <div style="background:var(--parchment);border-radius:8px;padding:12px;margin-top:22px;">
+      <img src="appuntamento.png" alt="Illustrazione dei segnali del corpo durante un appuntamento" style="border-radius:4px;">
+    </div>
+  </section>
+
+  <section>
+    <span class="tag">Cosa dicono i lettori</span>
+    <h2 style="margin-top:14px;">Recensioni</h2>
+
+    <div class="review">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-text">"Ero scettico, sembra uno di quei libri da guru. Poi ho provato lo schema degli occhi con una ragazza e ha funzionato al primo tentativo. Mi ha fatto ricredere."</div>
+      <div class="review-author">— Marco</div>
+    </div>
+    <div class="review">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-text">"L'ho trovato utilissimo per capire quando l'altra persona è davvero interessata o è li sono a perdere tempo. Lo consiglio vivamente!"</div>
+      <div class="review-author">— Andrea</div>
+    </div>
+    <div class="review">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-text">"Libro pratico e diretto, niente filosofia. Ho applicato tre cose al primo appuntamento dopo averlo letto e ho visto subito la differenza. Complimenti."</div>
+      <div class="review-author">— Simone</div>
+    </div>
+  </section>
+
+  <section>
+    <img src="libro-cartaceo.png" alt="Mockup del libro Il corpo tradisce la mente" style="width:200px;margin:0 auto 20px;">
+    <div class="price-block">
+      <div>
+        <div style="display:flex;align-items:baseline;justify-content:center;gap:10px;"><span class="price-old">39,97€</span><span class="price">14,97€</span> <span class="discount-badge">-63%</span></div>
+        <div class="reassure">Con illustrazioni ed esercizi<br>PDF, ricevuto subito via email</div>
+      </div>
+    </div>
+    <p class="closing" style="margin-top:32px;">Il corpo parla sempre.<br>Ora sai come ascoltarlo.</p>
+    <a href="https://buy.stripe.com/bJe3cvdgRdKJeMj8IV6wE04" class="cta" onclick="fbq('track','InitiateCheckout');">Voglio il libro</a>
+  </section>
+
+  <footer style="padding:24px 0 40px;text-align:center;">
+    <p style="font-size:11px;color:var(--ash);font-family:'Arial',sans-serif;line-height:1.7;margin:0;">
+      Marketing Brothers LTD — n. società SC867374<br>
+      1037 Sauchiehall Street, Glasgow, Scozia, G3 7TZ<br>
+      <a href="privacy.html" style="color:var(--ash);">Privacy Policy</a> · <a href="termini.html" style="color:var(--ash);">Termini e Condizioni</a>
+    </p>
+  </footer>
+
+</div>
+</body>
+</html>
