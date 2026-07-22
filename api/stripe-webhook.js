@@ -55,6 +55,23 @@ module.exports = async (req, res) => {
 
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object;
+
+    // Only process purchases of "Il corpo tradisce la mente". This webhook
+    // receives checkout.session.completed for EVERY product sold on the Stripe
+    // account, so without this guard buyers of other products would be added to
+    // this book's Brevo list and receive its ebooks for free.
+    const OUR_PAYMENT_LINK =
+      process.env.STRIPE_PAYMENT_LINK_ID || 'plink_1TtpetFyO2awdoWuF1oDPpBl';
+
+    if (session.payment_link !== OUR_PAYMENT_LINK) {
+      console.log(
+        'Skipping checkout from different payment link:',
+        session.payment_link
+      );
+      res.status(200).json({ received: true, skipped: true });
+      return;
+    }
+
     const email = session.customer_details?.email || session.customer_email;
 
     if (email) {
