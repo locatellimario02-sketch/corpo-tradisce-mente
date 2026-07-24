@@ -31,6 +31,66 @@ function verifyStripeSignature(rawBody, signatureHeader, secret) {
   }
 }
 
+// Hash a value the way Meta's Conversions API requires: SHA-256 of the
+// trimmed, lowercased input.
+function hashSHA256(value) {
+  return crypto
+    .createHash('sha256')
+    .update(String(value).trim().toLowerCase())
+    .digest('hex');
+}
+
+// Sends a server-side Purchase event to Meta's Conversions API.
+// This complements the browser Pixel (which loses ~half the events to iOS,
+// ad-blockers and cookie refusals). Deduplicated with the browser event via
+// event_id = Stripe checkout session id (the browser must fire the same id).
+async function sendMetaPurchase(session, email) {
+  const token = process.env.META_CAPI_TOKEN;
+  if (!token) {
+    console.log('META_CAPI_TOKEN not set — skipping Conversions API');
+    return;
+  }
+  const pixelId = process.env.META_PIXEL_ID || '1633787111176715';
+
+  const userData = { em: [hashSHA256(email)] };
+  const phone = session.customer_details?.phone;
+  if (phone) userData.ph = [hashSHA256(phone)];
+
+  const payload = {
+    data: [
+      {
+        event_name: 'Purchase',
+        event_time: Math.floor(Date.now() / 1000),
+        event_id: session.id, // must match the browser Pixel eventID to dedup
+        action_source: 'website',
+        event_source_url: 'https://evolvitiii.com/grazie.html',
+        user_data: userData,
+        custom_data: {
+          value: (session.amount_total || 1997) / 100,
+          currency: (session.currency || 'eur').toUpperCase(),
+        },
+      },
+    ],
+  };
+
+  try {
+    const res = await fetch(
+      `https://graph.facebook.com/v21.0/${pixelId}/events?access_token=${token}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      }
+    );
+    if (!res.ok) {
+      const errText = await res.text();
+      console.error('Meta CAPI error:', res.status, errText);
+    }
+  } catch (err) {
+    console.error('Error calling Meta CAPI:', err.message);
+  }
+}
+
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
     res.status(405).send('Method not allowed');
@@ -96,6 +156,9 @@ module.exports = async (req, res) => {
       } catch (err) {
         console.error('Error calling Brevo:', err.message);
       }
+
+      // Server-side Purchase event to Meta (deduplicated with the browser Pixel).
+      await sendMetaPurchase(session, email);
     } else {
       console.error('No email found on checkout session', session.id);
     }
