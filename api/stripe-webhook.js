@@ -45,7 +45,9 @@ function hashSHA256(value) {
 // ad-blockers and cookie refusals). Deduplicated with the browser event via
 // event_id = Stripe checkout session id (the browser must fire the same id).
 async function sendMetaPurchase(session, email) {
-  const token = process.env.META_CAPI_TOKEN;
+  // Trim to guard against a stray newline/space in the env var value, a common
+  // cause of Meta's "access token could not be decrypted" error.
+  const token = (process.env.META_CAPI_TOKEN || '').trim();
   if (!token) {
     console.log('META_CAPI_TOKEN not set — skipping Conversions API');
     return;
