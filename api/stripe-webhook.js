@@ -54,9 +54,25 @@ async function sendMetaPurchase(session, email) {
   }
   const pixelId = process.env.META_PIXEL_ID || '1633787111176715';
 
+  // More matching signals = better Event Match Quality on Meta. We send every
+  // field Stripe gives us, each hashed as Meta requires.
+  const details = session.customer_details || {};
   const userData = { em: [hashSHA256(email)] };
-  const phone = session.customer_details?.phone;
-  if (phone) userData.ph = [hashSHA256(phone)];
+
+  if (details.phone) userData.ph = [hashSHA256(details.phone)];
+
+  // Stripe gives a single full name; Meta wants first/last name separately.
+  if (details.name) {
+    const parts = details.name.trim().split(/\s+/);
+    if (parts[0]) userData.fn = [hashSHA256(parts[0])];
+    if (parts.length > 1) userData.ln = [hashSHA256(parts[parts.length - 1])];
+  }
+
+  // Billing address fields, when Stripe captured them.
+  const addr = details.address || {};
+  if (addr.country) userData.country = [hashSHA256(addr.country)];
+  if (addr.city) userData.ct = [hashSHA256(addr.city.replace(/\s+/g, ''))];
+  if (addr.postal_code) userData.zp = [hashSHA256(addr.postal_code)];
 
   const payload = {
     data: [
