@@ -110,6 +110,23 @@ src="https://www.facebook.com/tr?id=1633787111176715&ev=PageView&noscript=1"
   .review-stars{color:var(--signal);font-size:13px;letter-spacing:2px;}
   .review-text{font-size:14px;color:#C7BDB6;margin-top:6px;line-height:1.5;font-style:italic;}
   .review-author{font-size:12px;color:var(--ash);margin-top:8px;}
+  /* Leva 2 — conversione */
+  .proof{font-family:'Arial',sans-serif;font-size:13px;color:var(--signal);text-align:center;margin-top:12px;letter-spacing:.02em;}
+  .proof .stars{letter-spacing:2px;}
+  .timer{font-family:'Arial',sans-serif;font-size:13px;color:var(--parchment);background:var(--void-2);border:1px solid var(--ember-deep);border-radius:8px;text-align:center;padding:10px 12px;margin-top:14px;}
+  .timer b{color:var(--signal);}
+  .timer .cd{font-family:'Arial Black',sans-serif;color:var(--ember);letter-spacing:.03em;}
+  .timer.expired{opacity:.65;}
+  .trust{font-family:'Arial',sans-serif;font-size:12px;color:var(--ash);text-align:center;margin-top:10px;}
+  .pay-icons{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:8px;}
+  .pay-icons span{font-family:'Arial',sans-serif;font-size:10px;font-weight:700;letter-spacing:.04em;color:var(--ash);border:1px solid var(--line);border-radius:4px;padding:3px 7px;background:var(--void-2);}
+  .sticky-cta{position:fixed;left:0;right:0;bottom:0;z-index:50;max-width:480px;margin:0 auto;display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(14,11,12,.97);border-top:1px solid var(--line);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);}
+  .sticky-left{flex:0 0 auto;line-height:1.15;}
+  .sticky-price s{color:var(--ash);font-size:12px;}
+  .sticky-price b{font-family:'Arial Black',sans-serif;color:var(--parchment);font-size:18px;margin-left:4px;}
+  .sticky-timer{font-family:'Arial',sans-serif;font-size:11px;color:var(--ember);margin-top:2px;}
+  .sticky-btn{flex:1 1 auto;text-align:center;background:var(--ember);color:#FCEBEB;font-family:'Arial',sans-serif;font-weight:700;font-size:14px;padding:12px;border-radius:6px;text-decoration:none;}
+  body{padding-bottom:76px;}
 </style>
 </head>
 <body>
@@ -124,13 +141,20 @@ src="https://www.facebook.com/tr?id=1633787111176715&ev=PageView&noscript=1"
 
     <img src="hero-bundle.png" alt="Il corpo tradisce la mente + bonus gratuito Guida al potere sociale" style="width:100%;margin:20px auto 0;">
 
+    <div class="proof"><span class="stars">★★★★★</span>&nbsp; Già letto da oltre 1.000 lettori</div>
+
     <div class="price-row">
-      <span class="price-old">39,97€</span><span class="price">19,97€</span>
-      <span class="discount-badge">-50%</span>
+      <span class="price-old">49,97€</span><span class="price">19,97€</span>
+      <span class="discount-badge">-60%</span>
     </div>
     <p class="reassure" style="text-align:center;margin-top:8px;">2 ebook PDF · download immediato</p>
     <p class="reassure" style="text-align:center;margin-top:4px;color:var(--signal);">🎁 Bonus incluso: "Guida al potere sociale" — 14 principi per farti ascoltare, rispettare e guidare ogni conversazione</p>
+
+    <div class="timer">⏳ Offerta di lancio <b>-60%</b> · scade tra <span class="cd">60:00</span></div>
+
     <a href="https://buy.stripe.com/bJe3cvdgRdKJeMj8IV6wE04" class="cta" onclick="fbq('track','InitiateCheckout',{value:19.97,currency:'EUR'});">Ottieni il libro</a>
+    <div class="trust">🔒 Pagamento sicuro · Download immediato · Ricevi subito via email</div>
+    <div class="pay-icons"><span>VISA</span><span>MASTERCARD</span><span>PAYPAL</span><span>APPLE PAY</span></div>
   </section>
 
   <section>
@@ -138,7 +162,7 @@ src="https://www.facebook.com/tr?id=1633787111176715&ev=PageView&noscript=1"
     <h2 style="margin-top:14px;">Cosa imparerai</h2>
     <p class="section-intro">Un metodo strutturato per osservare, interpretare e comprendere le persone attraverso il loro comportamento non verbale.</p>
 
-    <img src="libro-pagine-dietro.png" alt="Il libro con le pagine in evidenza" style="width:100%;height:auto;margin:0 auto 22px;">
+    <img src="libro-pagine-dietro.png" loading="lazy" alt="Il libro con le pagine in evidenza" style="width:100%;height:auto;margin:0 auto 22px;">
 
     <div class="signal">
       <div>
@@ -178,7 +202,7 @@ src="https://www.facebook.com/tr?id=1633787111176715&ev=PageView&noscript=1"
     </div>
 
     <div style="background:var(--parchment);border-radius:8px;padding:12px;margin-top:22px;">
-      <img src="appuntamento.png" alt="Illustrazione dei segnali del corpo durante un appuntamento" style="border-radius:4px;">
+      <img src="appuntamento.png" loading="lazy" alt="Illustrazione dei segnali del corpo durante un appuntamento" style="border-radius:4px;">
     </div>
   </section>
 
@@ -187,7 +211,7 @@ src="https://www.facebook.com/tr?id=1633787111176715&ev=PageView&noscript=1"
     <h2 style="margin-top:14px;">Guida al potere sociale</h2>
     <p class="section-intro">14 principi per farti ascoltare, rispettare e guidare ogni conversazione — incluso gratis con "Il corpo tradisce la mente".</p>
 
-    <img src="bonus-mockup.png" alt="Mockup del bonus Guida al potere sociale" style="width:200px;margin:0 auto 22px;">
+    <img src="bonus-mockup.png" loading="lazy" alt="Mockup del bonus Guida al potere sociale" style="width:200px;margin:0 auto 22px;">
 
     <div class="signal">
       <div>
@@ -218,6 +242,7 @@ src="https://www.facebook.com/tr?id=1633787111176715&ev=PageView&noscript=1"
   <section>
     <span class="tag">Cosa dicono i lettori</span>
     <h2 style="margin-top:14px;">Recensioni</h2>
+    <div class="proof" style="margin-bottom:18px;"><span class="stars">★★★★★</span>&nbsp; Già letto da oltre 1.000 lettori</div>
 
     <div class="review">
       <div class="review-stars">★★★★★</div>
@@ -237,15 +262,18 @@ src="https://www.facebook.com/tr?id=1633787111176715&ev=PageView&noscript=1"
   </section>
 
   <section>
-    <img src="libro-cartaceo.png" alt="Mockup del libro Il corpo tradisce la mente" style="width:240px;margin:0 auto 20px;">
+    <img src="libro-cartaceo.png" loading="lazy" alt="Mockup del libro Il corpo tradisce la mente" style="width:240px;margin:0 auto 20px;">
     <div class="price-block">
       <div>
-        <div style="display:flex;align-items:baseline;justify-content:center;gap:10px;"><span class="price-old">39,97€</span><span class="price">19,97€</span> <span class="discount-badge">-50%</span></div>
+        <div style="display:flex;align-items:baseline;justify-content:center;gap:10px;"><span class="price-old">49,97€</span><span class="price">19,97€</span> <span class="discount-badge">-60%</span></div>
         <div class="reassure">Con illustrazioni ed esercizi + bonus "Guida al potere sociale"<br>2 ebook PDF, ricevuti subito via email</div>
       </div>
     </div>
     <p class="closing" style="margin-top:32px;">Il corpo parla sempre.<br>Ora sai come ascoltarlo.</p>
+    <div class="timer">⏳ Offerta di lancio <b>-60%</b> · scade tra <span class="cd">60:00</span></div>
     <a href="https://buy.stripe.com/bJe3cvdgRdKJeMj8IV6wE04" class="cta" onclick="fbq('track','InitiateCheckout',{value:19.97,currency:'EUR'});">Ottieni il libro</a>
+    <div class="trust">🔒 Pagamento sicuro · Download immediato · Ricevi subito via email</div>
+    <div class="pay-icons"><span>VISA</span><span>MASTERCARD</span><span>PAYPAL</span><span>APPLE PAY</span></div>
   </section>
 
   <section>
@@ -281,5 +309,38 @@ src="https://www.facebook.com/tr?id=1633787111176715&ev=PageView&noscript=1"
   </footer>
 
 </div>
+
+<div class="sticky-cta">
+  <div class="sticky-left">
+    <div class="sticky-price"><s>49,97€</s> <b>19,97€</b></div>
+    <div class="sticky-timer">⏳ <span class="cd">60:00</span></div>
+  </div>
+  <a href="https://buy.stripe.com/bJe3cvdgRdKJeMj8IV6wE04" class="sticky-btn" onclick="fbq('track','InitiateCheckout',{value:19.97,currency:'EUR'});">Ottieni il libro</a>
+</div>
+
+<script>
+(function(){
+  var KEY = 'ctm_offer_deadline';
+  var DURATION = 60 * 60 * 1000; // 1 ora
+  var dl = parseInt(localStorage.getItem(KEY), 10);
+  if (!dl || isNaN(dl)) { dl = Date.now() + DURATION; localStorage.setItem(KEY, String(dl)); }
+  function pad(n){ return (n < 10 ? '0' : '') + n; }
+  function tick(){
+    var rem = dl - Date.now();
+    var els = document.querySelectorAll('.cd');
+    if (rem <= 0) {
+      els.forEach(function(e){ e.textContent = '00:00'; });
+      document.querySelectorAll('.timer').forEach(function(t){ t.classList.add('expired'); });
+      return false;
+    }
+    var m = Math.floor(rem / 60000);
+    var s = Math.floor((rem % 60000) / 1000);
+    els.forEach(function(e){ e.textContent = pad(m) + ':' + pad(s); });
+    return true;
+  }
+  tick();
+  var iv = setInterval(function(){ if (!tick()) clearInterval(iv); }, 1000);
+})();
+</script>
 </body>
 </html>
