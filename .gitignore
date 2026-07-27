@@ -1,2 +1,7 @@
 CLAUDE.md
 .claude/
+
+# Segreti / variabili d'ambiente — non committare MAI
+.env
+.env.*
+*.env
