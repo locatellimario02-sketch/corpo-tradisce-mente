@@ -11,6 +11,10 @@
 
 const MAX_PAGES = 3; // pages of 100 sessions per payment link
 
+// Only show sales from the relaunch onward. Default: 07/08/2026 00:00 Europe/Rome
+// (= 06/08/2026 22:00 UTC). Override with DASHBOARD_SINCE_UNIX if needed.
+const CUTOFF = Number(process.env.DASHBOARD_SINCE_UNIX) || Math.floor(Date.UTC(2026, 7, 6, 22, 0, 0) / 1000);
+
 function requireAuth(res) {
   res.setHeader('WWW-Authenticate', 'Basic realm="Dashboard", charset="UTF-8"');
   res.status(401).send('Autenticazione richiesta');
@@ -136,6 +140,7 @@ module.exports = async (req, res) => {
       (s) =>
         s.payment_status === 'paid' &&
         (s.amount_total || 0) > 0 &&
+        s.created >= CUTOFF &&
         (!s.payment_link || linkSet.has(s.payment_link))
     )
     .sort((a, b) => b.created - a.created);
@@ -338,7 +343,7 @@ module.exports = async (req, res) => {
     <div style="margin-top:12px;"><a class="btn" href="/api/dashboard?format=csv">⬇ Scarica tutto in CSV</a></div>
   </div>
 
-  <div class="sub">Mostra le vendite dei payment link del libro (front-end${UPSELL ? ' + upsell' : ''}) · fino a ~${MAX_PAGES * 100} sessioni recenti per link.</div>
+  <div class="sub">Vendite dal ${dmy(CUTOFF).slice(0, 10)} · payment link del libro (front-end${UPSELL ? ' + upsell' : ''}) · fino a ~${MAX_PAGES * 100} sessioni recenti per link.</div>
 </div></body></html>`;
 
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
