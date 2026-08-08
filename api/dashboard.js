@@ -90,10 +90,16 @@ function esc(s) {
 function eur(n) {
   return n.toFixed(2).replace('.', ',') + ' €';
 }
+// Formats a unix time as DD/MM/YYYY HH:MM in Italy (Europe/Rome) time.
 function dmy(unix) {
-  const d = new Date(unix * 1000);
-  const p = (x) => (x < 10 ? '0' : '') + x;
-  return `${p(d.getDate())}/${p(d.getMonth() + 1)}/${d.getFullYear()} ${p(d.getHours())}:${p(d.getMinutes())}`;
+  const parts = new Intl.DateTimeFormat('it-IT', {
+    timeZone: 'Europe/Rome',
+    day: '2-digit', month: '2-digit', year: 'numeric',
+    hour: '2-digit', minute: '2-digit', hour12: false,
+  })
+    .formatToParts(new Date(unix * 1000))
+    .reduce((o, p) => ((o[p.type] = p.value), o), {});
+  return `${parts.day}/${parts.month}/${parts.year} ${parts.hour}:${parts.minute}`;
 }
 function csvCell(v) {
   const s = String(v == null ? '' : v);
@@ -155,6 +161,7 @@ module.exports = async (req, res) => {
       currency: (s.currency || 'eur').toUpperCase(),
       email: d.email || '',
       name: d.name || '',
+      phone: d.phone || '',
       country: (d.address && d.address.country) || '',
       method: m.label,
       methodType: m.type,
@@ -189,6 +196,7 @@ module.exports = async (req, res) => {
   const d30 = within(30 * DAY);
   const totalRev = sum(rows);
   const aov = rows.length ? totalRev / rows.length : 0;
+  const uniqueCustomers = new Set(rows.map((r) => (r.email || '').toLowerCase()).filter(Boolean)).size;
 
   const kpis = [
     { l: 'Ultime 24h', v: eur(sum(d1)), n: d1.length + ' vendite' },
@@ -196,6 +204,7 @@ module.exports = async (req, res) => {
     { l: '30 giorni', v: eur(sum(d30)), n: d30.length + ' vendite' },
     { l: 'Totale', v: eur(totalRev), n: rows.length + ' vendite' },
     { l: 'Scontrino medio', v: eur(aov), n: 'per vendita' },
+    { l: 'Clienti unici', v: String(uniqueCustomers), n: 'email distinte' },
   ];
 
   // Money by method (where the funds are).
@@ -223,6 +232,19 @@ module.exports = async (req, res) => {
     .map((k) => `<tr><td>${esc(k)}</td><td class="num">${byPrice[k]} vendite</td></tr>`)
     .join('');
 
+  // Sales by country.
+  const byCountry = {};
+  rows.forEach((r) => {
+    const k = r.country || '??';
+    if (!byCountry[k]) byCountry[k] = { n: 0, v: 0 };
+    byCountry[k].n++;
+    byCountry[k].v += r.amount;
+  });
+  const countryRows = Object.keys(byCountry)
+    .sort((a, b) => byCountry[b].v - byCountry[a].v)
+    .map((k) => `<tr><td>${esc(k)}</td><td class="num">${byCountry[k].n}</td><td class="num amt">${eur(byCountry[k].v)}</td></tr>`)
+    .join('');
+
   // Abandoned / incomplete checkouts: opened the payment link but never paid.
   const abandoned = sessions
     .filter(
@@ -243,7 +265,7 @@ module.exports = async (req, res) => {
       const d = s.customer_details || {};
       const email = d.email || s.customer_email || '';
       return (
-        `<tr><td class="dt">${esc(dmy(s.created).slice(0, 11))}</td>` +
+        `<tr><td class="dt">${esc(dmy(s.created))}</td>` +
         `<td class="amt">${eur((s.amount_total || 0) / 100)}</td>` +
         `<td class="em">${esc(email || '—')}</td>` +
         `<td>${esc(statusLabel(s))}</td></tr>`
@@ -278,11 +300,12 @@ module.exports = async (req, res) => {
     .map(
       (r) =>
         `<tr>` +
-        `<td class="dt">${esc(dmy(r.ts).slice(0, 11))}</td>` +
+        `<td class="dt">${esc(dmy(r.ts))}</td>` +
         `<td class="amt">${eur(r.amount)}</td>` +
         `<td>${esc(r.method)}</td>` +
         `<td class="em">${esc(r.email)}</td>` +
         `<td>${esc(r.name || '—')}</td>` +
+        `<td>${esc(r.phone || '—')}</td>` +
         `<td class="ctr">${esc(r.country || '—')}</td>` +
         `<td>${r.type === 'upsell' ? '<span class="tag">upsell</span>' : 'front-end'}</td>` +
         `</tr>`
@@ -353,6 +376,11 @@ module.exports = async (req, res) => {
       <table><thead><tr><th>Prezzo</th><th>Quantità</th></tr></thead>
       <tbody>${priceRows || '<tr><td colspan="2">—</td></tr>'}</tbody></table>
     </div>
+    <div class="card">
+      <h2>Vendite per paese</h2>
+      <table><thead><tr><th>Paese</th><th class="num">Vendite</th><th class="num">Incasso</th></tr></thead>
+      <tbody>${countryRows || '<tr><td colspan="3">—</td></tr>'}</tbody></table>
+    </div>
   </div>
 
   <div class="cols">
@@ -368,7 +396,7 @@ module.exports = async (req, res) => {
     <div class="card">
       <h2>Ultimi checkout abbandonati (max 40)</h2>
       <div class="scroll"><table>
-        <thead><tr><th>Data</th><th>Importo</th><th>Email</th><th>Stato</th></tr></thead>
+        <thead><tr><th>Data e ora</th><th>Importo</th><th>Email</th><th>Stato</th></tr></thead>
         <tbody>${abRows || '<tr><td colspan="4">Nessuno.</td></tr>'}</tbody>
       </table></div>
     </div>
@@ -383,8 +411,8 @@ module.exports = async (req, res) => {
     <h2>Ultimi pagamenti (max 100)</h2>
     <div class="scroll">
     <table>
-      <thead><tr><th>Data</th><th>Importo</th><th>Metodo</th><th>Email</th><th>Nome</th><th>Paese</th><th>Tipo</th></tr></thead>
-      <tbody>${tableRows || '<tr><td colspan="7">Nessuna vendita trovata.</td></tr>'}</tbody>
+      <thead><tr><th>Data e ora</th><th>Importo</th><th>Metodo</th><th>Email</th><th>Nome</th><th>Telefono</th><th>Paese</th><th>Tipo</th></tr></thead>
+      <tbody>${tableRows || '<tr><td colspan="8">Nessuna vendita trovata.</td></tr>'}</tbody>
     </table>
     </div>
     <div style="margin-top:12px;"><a class="btn" href="/api/dashboard?format=csv">⬇ Scarica tutto in CSV</a></div>
