@@ -223,6 +223,34 @@ module.exports = async (req, res) => {
     .map((k) => `<tr><td>${esc(k)}</td><td class="num">${byPrice[k]} vendite</td></tr>`)
     .join('');
 
+  // Abandoned / incomplete checkouts: opened the payment link but never paid.
+  const abandoned = sessions
+    .filter(
+      (s) =>
+        s.created >= CUTOFF &&
+        (s.amount_total || 0) > 0 &&
+        (!s.payment_link || linkSet.has(s.payment_link)) &&
+        s.payment_status !== 'paid'
+    )
+    .sort((a, b) => b.created - a.created);
+  const totalCheckouts = rows.length + abandoned.length;
+  const completionRate = totalCheckouts ? Math.round((rows.length / totalCheckouts) * 100) : 0;
+  const statusLabel = (s) =>
+    s.status === 'expired' ? 'scaduto' : s.status === 'open' ? 'aperto' : 'incompleto';
+  const abRows = abandoned
+    .slice(0, 40)
+    .map((s) => {
+      const d = s.customer_details || {};
+      const email = d.email || s.customer_email || '';
+      return (
+        `<tr><td class="dt">${esc(dmy(s.created).slice(0, 11))}</td>` +
+        `<td class="amt">${eur((s.amount_total || 0) / 100)}</td>` +
+        `<td class="em">${esc(email || '—')}</td>` +
+        `<td>${esc(statusLabel(s))}</td></tr>`
+      );
+    })
+    .join('');
+
   // 30-day daily revenue chart.
   const todayStart = Math.floor(now / DAY) * DAY;
   const days = [];
@@ -324,6 +352,25 @@ module.exports = async (req, res) => {
       <h2>Vendite per prezzo</h2>
       <table><thead><tr><th>Prezzo</th><th>Quantità</th></tr></thead>
       <tbody>${priceRows || '<tr><td colspan="2">—</td></tr>'}</tbody></table>
+    </div>
+  </div>
+
+  <div class="cols">
+    <div class="card">
+      <h2>Checkout (funnel)</h2>
+      <table>
+        <tr><td>Completati (pagati)</td><td class="num amt">${rows.length}</td></tr>
+        <tr><td>Abbandonati</td><td class="num">${abandoned.length}</td></tr>
+        <tr><td>Tasso di completamento</td><td class="num" style="color:var(--signal);font-weight:800;">${completionRate}%</td></tr>
+      </table>
+      <div class="note">"Abbandonati" = ha aperto il link di pagamento ma non ha completato l'acquisto.</div>
+    </div>
+    <div class="card">
+      <h2>Ultimi checkout abbandonati (max 40)</h2>
+      <div class="scroll"><table>
+        <thead><tr><th>Data</th><th>Importo</th><th>Email</th><th>Stato</th></tr></thead>
+        <tbody>${abRows || '<tr><td colspan="4">Nessuno.</td></tr>'}</tbody>
+      </table></div>
     </div>
   </div>
 
