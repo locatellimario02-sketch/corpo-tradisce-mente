@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>BOZZA · Conquista ogni ragazza in 90 secondi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#080808; --panel:#121212; --line:#242424;
+    --red:#E4342F; --gold:#F5B841; --white:#FFFFFF; --muted:#B4ADA7;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--white);font-family:'Inter',-apple-system,sans-serif;-webkit-font-smoothing:antialiased;padding-bottom:78px;line-height:1.5;}
+  .wrap{max-width:520px;margin:0 auto;padding:0 20px;}
+  .anton{font-family:'Anton',Impact,sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.01em;line-height:.98;}
+  .red{color:var(--red);}
+  .gold{color:var(--gold);}
+  section{padding:46px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  img{max-width:100%;display:block;}
+
+  .draft{background:#1c1512;color:var(--muted);font-family:monospace;font-size:11px;text-align:center;padding:7px;letter-spacing:.04em;}
+
+  .pill{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#101010;background:var(--gold);border-radius:999px;padding:6px 14px;}
+  h1{font-size:52px;text-align:center;margin:18px 0 0;}
+  @media(max-width:400px){h1{font-size:44px;}}
+  .gold-rule{width:70px;height:4px;background:var(--gold);border-radius:3px;margin:16px auto 0;}
+  .subhead{font-family:'Anton',sans-serif;text-transform:uppercase;font-size:20px;letter-spacing:.02em;color:var(--white);text-align:center;margin-top:16px;line-height:1.15;}
+  .kicker{font-size:15px;color:var(--muted);text-align:center;margin-top:12px;}
+
+  .hero-img{margin:26px auto 0;filter:drop-shadow(0 20px 40px rgba(0,0,0,.6));}
+  .stars{color:var(--gold);letter-spacing:3px;font-size:15px;}
+  .proof{text-align:center;margin-top:16px;font-size:14px;color:var(--muted);}
+  .proof b{color:var(--white);}
+
+  .price-row{display:flex;gap:12px;align-items:baseline;justify-content:center;margin-top:20px;}
+  .price-old{color:var(--muted);text-decoration:line-through;font-size:19px;}
+  .price{font-family:'Anton',sans-serif;font-size:44px;color:var(--white);}
+  .badge{background:var(--red);color:#fff;font-weight:800;font-size:13px;padding:5px 10px;border-radius:6px;align-self:center;}
+  .reassure{text-align:center;color:var(--muted);font-size:14px;margin-top:8px;}
+
+  .cta{display:block;background:var(--red);color:#fff;font-family:'Anton',sans-serif;text-transform:uppercase;font-size:22px;letter-spacing:.02em;text-align:center;text-decoration:none;padding:18px;border-radius:12px;margin-top:20px;box-shadow:0 10px 26px rgba(228,52,47,.35);}
+  .cta:active{transform:translateY(1px);}
+  .trust{text-align:center;color:var(--muted);font-size:13px;margin-top:12px;}
+  .pay{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:10px;}
+  .pay span{font-size:10px;font-weight:700;letter-spacing:.04em;color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:4px 8px;}
+
+  .timer{margin-top:16px;text-align:center;font-size:14px;color:var(--white);background:var(--panel);border:1px solid #3a221f;border-radius:10px;padding:11px;}
+  .timer .cd{font-family:'Anton',sans-serif;color:var(--red);letter-spacing:.04em;font-size:16px;}
+
+  .h2{font-family:'Anton',sans-serif;text-transform:uppercase;font-size:32px;text-align:center;line-height:1.02;}
+  .lead{color:var(--muted);text-align:center;margin:14px auto 26px;max-width:420px;}
+
+  .sig{display:flex;gap:14px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px;}
+  .sig-badge{flex:0 0 auto;width:52px;height:52px;border-radius:999px;border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:24px;background:#1a1508;}
+  .sig-t{font-family:'Anton',sans-serif;text-transform:uppercase;font-size:17px;letter-spacing:.02em;}
+  .sig-d{color:var(--muted);font-size:14px;margin-top:3px;}
+
+  .item{display:flex;gap:12px;align-items:flex-start;padding:13px 0;border-bottom:1px solid var(--line);}
+  .item:last-child{border-bottom:none;}
+  .ico{flex:0 0 auto;font-weight:900;}
+  .ico.x{color:var(--red);}
+  .ico.v{color:var(--gold);}
+  .item p{font-size:15.5px;}
+
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+  .review{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px;}
+  .review .rs{color:var(--gold);letter-spacing:2px;font-size:13px;}
+  .review p{font-style:italic;color:#EDE7E2;margin-top:7px;}
+  .review .a{color:var(--muted);font-size:13px;margin-top:9px;}
+
+  .bonus-flag{font-family:'Anton',sans-serif;text-transform:uppercase;color:var(--red);font-size:22px;text-align:center;}
+  .closing{font-family:'Anton',sans-serif;text-transform:uppercase;font-size:26px;text-align:center;line-height:1.05;}
+
+  .sticky{position:fixed;left:0;right:0;bottom:0;z-index:60;max-width:520px;margin:0 auto;display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(8,8,8,.96);border-top:1px solid var(--line);backdrop-filter:blur(8px);}
+  .sticky .sp{line-height:1.1;flex:0 0 auto;}
+  .sticky .sp s{color:var(--muted);font-size:12px;}
+  .sticky .sp b{font-family:'Anton',sans-serif;font-size:20px;margin-left:5px;}
+  .sticky .st{font-size:11px;color:var(--red);}
+  .sticky a{flex:1 1 auto;text-align:center;background:var(--red);color:#fff;font-family:'Anton',sans-serif;text-transform:uppercase;font-size:16px;padding:13px;border-radius:10px;text-decoration:none;}
+</style>
+</head>
+<body>
+<div class="draft">BOZZA — nuova landing in stile ad · non pubblicata</div>
+
+<!-- HERO -->
+<section style="padding-top:34px;">
+  <div class="wrap" style="text-align:center;">
+    <span class="pill">+3.200 uomini già formati</span>
+    <h1 class="anton">Conquista ogni ragazza in <span class="red">90 secondi</span></h1>
+    <div class="gold-rule"></div>
+    <div class="subhead">Leggendo il suo linguaggio del corpo</div>
+    <p class="kicker">I segnali che ti dicono che sei già dentro — prima ancora che apra bocca.</p>
+
+    <img class="hero-img" src="hero-bundle.png" alt="Il linguaggio segreto del corpo + bonus">
+
+    <div class="proof"><span class="stars">★★★★★</span><br><b>Già letto da oltre 1.000 uomini</b></div>
+
+    <div class="price-row"><span class="price-old">49,97€</span><span class="price">19,97€</span><span class="badge">-60%</span></div>
+    <p class="reassure">2 ebook PDF · download immediato</p>
+
+    <div class="timer">⏳ Offerta di lancio <b>-60%</b> · scade tra <span class="cd">60:00</span></div>
+
+    <a class="cta" href="https://buy.stripe.com/bJe3cvdgRdKJeMj8IV6wE04">Voglio leggere i suoi segnali</a>
+    <div class="trust">🔒 Pagamento sicuro · Ricevi subito via email</div>
+    <div class="pay"><span>VISA</span><span>MASTERCARD</span><span>PAYPAL</span><span>APPLE PAY</span></div>
+  </div>
+</section>
+
+<!-- 3 SEGNALI (message match con l'ad) -->
+<section>
+  <div class="wrap">
+    <div class="h2">3 segnali che <span class="gold">sei già dentro</span></div>
+    <p class="lead">Te lo mostra col corpo molto prima che con le parole. Questi sono i primi 3 — nel libro ne trovi decine.</p>
+
+    <div class="sig"><div class="sig-badge">👁️</div><div><div class="sig-t">Sopracciglia sollevate</div><div class="sig-d">Ti ha riconosciuto come interessante.</div></div></div>
+    <div class="sig"><div class="sig-badge">🙂</div><div><div class="sig-t">Mezzo sorriso</div><div class="sig-d">Ti sta testando per vedere come reagisci.</div></div></div>
+    <div class="sig"><div class="sig-badge">😳</div><div><div class="sig-t">Occhi più aperti</div><div class="sig-d">Hai catturato tutta la sua attenzione.</div></div></div>
+  </div>
+</section>
+
+<!-- FA PER TE SE (dolori) -->
+<section>
+  <div class="wrap">
+    <div class="h2">Fa per te <span class="red">se…</span></div>
+    <div style="margin-top:22px;">
+      <div class="item"><span class="ico x">✕</span><p>Ti sono sfuggite ragazze interessate perché non hai colto i segnali in tempo.</p></div>
+      <div class="item"><span class="ico x">✕</span><p>Non sai mai quando fare la mossa — e quando ti fai avanti, è il momento sbagliato.</p></div>
+      <div class="item"><span class="ico x">✕</span><p>Vuoi capire cosa pensa davvero di te dal corpo, non dalle parole.</p></div>
+      <div class="item"><span class="ico x">✕</span><p>Vuoi arrivare all'appuntamento sapendo esattamente cosa cercare.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPARERAI -->
+<section>
+  <div class="wrap">
+    <div class="h2">Con questo libro <span class="gold">imparerai</span></div>
+    <div style="margin-top:22px;">
+      <div class="item"><span class="ico v">✓</span><p>Riconoscere in tempo reale se sei già dentro o se stai per bruciarti.</p></div>
+      <div class="item"><span class="ico v">✓</span><p>I segnali che dicono "avvicinati" e quelli che dicono "fermati".</p></div>
+      <div class="item"><span class="ico v">✓</span><p>Il momento esatto in cui fare la tua mossa.</p></div>
+      <div class="item"><span class="ico v">✓</span><p>Leggere il suo interesse dal corpo, anche quando le parole dicono altro.</p></div>
+      <div class="item"><span class="ico v">✓</span><p>Evitare le figuracce che ti fanno perdere punti in un secondo.</p></div>
+    </div>
+    <div style="background:#fff;border-radius:12px;padding:10px;margin-top:24px;">
+      <img src="appuntamento.png" alt="Segnali del corpo durante un appuntamento" style="border-radius:6px;">
+    </div>
+  </div>
+</section>
+
+<!-- BONUS -->
+<section>
+  <div class="wrap" style="text-align:center;">
+    <div class="bonus-flag">🎁 Bonus gratuito</div>
+    <div class="h2" style="font-size:26px;margin-top:6px;">Guida al Potere Sociale</div>
+    <p class="lead">14 principi per farti ascoltare, rispettare e guidare ogni conversazione — incluso gratis.</p>
+    <img src="bonus-mockup.png" alt="Bonus" style="width:180px;margin:0 auto 22px;">
+    <div class="card" style="text-align:left;">
+      <div class="item"><span class="ico v">✓</span><p><b>Ascolto strategico</b> — usare silenzio e pause per guidare la conversazione.</p></div>
+      <div class="item"><span class="ico v">✓</span><p><b>Parlare meno, senza giustificarti</b> — e guadagnare autorevolezza.</p></div>
+      <div class="item"><span class="ico v">✓</span><p><b>Gestire i giochi di potere</b> — affermarti senza subire.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- RECENSIONI -->
+<section>
+  <div class="wrap">
+    <div class="h2">Cosa dicono <span class="gold">i lettori</span></div>
+    <div class="proof" style="margin:12px 0 22px;"><span class="stars">★★★★★</span> &nbsp;<b>Oltre 1.000 uomini</b></div>
+    <div class="review"><div class="rs">★★★★★</div><p>"La cosa che odiavo di più era uscire con una ragazza e non capire se fosse interessata. Questo libro mi ha insegnato a leggere i segnali durante l'appuntamento e a capirlo sul momento."</p><div class="a">— Andrea, 28</div></div>
+    <div class="review"><div class="rs">★★★★★</div><p>"Pensavo che il mio problema fosse la mancanza di sicurezza. In realtà non riuscivo a interpretare quello che avevo davanti. Oggi affronto le interazioni con molta più lucidità."</p><div class="a">— Simone, 31</div></div>
+    <div class="review"><div class="rs">★★★★★</div><p>"Chiaro, diretto e applicabile da subito. Il primo libro sul linguaggio del corpo che mi è servito davvero."</p><div class="a">— Marco, 34</div></div>
+  </div>
+</section>
+
+<!-- PREZZO / CHIUSURA -->
+<section>
+  <div class="wrap" style="text-align:center;">
+    <img src="libro-cartaceo.png" alt="Il linguaggio segreto del corpo" style="width:230px;margin:0 auto 22px;">
+    <div class="card">
+      <div class="price-row" style="margin-top:0;"><span class="price-old">49,97€</span><span class="price">19,97€</span><span class="badge">-60%</span></div>
+      <p class="reassure">2 ebook PDF (libro + bonus) · ricevuti subito via email</p>
+    </div>
+    <p class="closing" style="margin-top:28px;">Il suo corpo ti sta<br><span class="gold">già parlando.</span></p>
+    <div class="timer">⏳ Offerta di lancio <b>-60%</b> · scade tra <span class="cd">60:00</span></div>
+    <a class="cta" href="https://buy.stripe.com/bJe3cvdgRdKJeMj8IV6wE04">Voglio leggere i suoi segnali</a>
+    <div class="trust">🔒 Pagamento sicuro · Download immediato</div>
+    <div class="pay"><span>VISA</span><span>MASTERCARD</span><span>PAYPAL</span><span>APPLE PAY</span></div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section>
+  <div class="wrap">
+    <div class="h2" style="font-size:28px;">Domande <span class="gold">frequenti</span></div>
+    <div style="margin-top:22px;">
+      <div class="item"><span class="ico v">?</span><p><b>Sono alle prime armi, fa per me?</b><br><span style="color:var(--muted)">Sì, parte dalle basi e procede per gradi.</span></p></div>
+      <div class="item"><span class="ico v">?</span><p><b>Quanto tempo richiede?</b><br><span style="color:var(--muted)">Lo leggi in poche sere, applichi da subito.</span></p></div>
+      <div class="item"><span class="ico v">?</span><p><b>Come ricevo i libri?</b><br><span style="color:var(--muted)">Via email in PDF, pochi minuti dopo il pagamento.</span></p></div>
+    </div>
+  </div>
+</section>
+
+<div class="sticky">
+  <div class="sp"><s>49,97€</s> <b>19,97€</b><div class="st">⏳ <span class="cd">60:00</span></div></div>
+  <a href="https://buy.stripe.com/bJe3cvdgRdKJeMj8IV6wE04">Leggi i suoi segnali</a>
+</div>
+
+<script>
+(function(){
+  var dl=Date.now()+60*60*1000;
+  function pad(n){return(n<10?'0':'')+n;}
+  function tick(){var rem=dl-Date.now(),els=document.querySelectorAll('.cd');
+    if(rem<=0){els.forEach(function(e){e.textContent='00:00';});return false;}
+    var m=Math.floor(rem/60000),s=Math.floor((rem%60000)/1000);
+    els.forEach(function(e){e.textContent=pad(m)+':'+pad(s);});return true;}
+  tick();var iv=setInterval(function(){if(!tick())clearInterval(iv);},1000);
+})();
+</script>
+</body>
+</html>
