@@ -11,7 +11,7 @@
 <style>
   :root{--bg:#070707;--panel:#131313;--line:#252525;--red:#E4342F;--gold:#F5B841;--white:#fff;--muted:#B4ADA7;}
   *{box-sizing:border-box;margin:0;padding:0;}
-  body{background:var(--bg);color:var(--white);font-family:'Inter',-apple-system,sans-serif;-webkit-font-smoothing:antialiased;padding-bottom:78px;line-height:1.5;}
+  body{background:var(--bg);color:var(--white);font-family:'Inter',-apple-system,sans-serif;-webkit-font-smoothing:antialiased;padding-bottom:24px;line-height:1.5;}
   .wrap{max-width:540px;margin:0 auto;padding:0 18px;}
   .anton{font-family:'Anton',Impact,sans-serif;text-transform:uppercase;letter-spacing:.01em;line-height:.98;}
   .red{color:var(--red);}.gold{color:var(--gold);}
@@ -74,13 +74,14 @@
 <section style="padding-top:28px;">
   <div class="wrap" style="text-align:center;">
     <span class="pill">+3.200 uomini già formati</span>
-    <h1>Leggi ogni donna come un <span class="red">libro aperto</span></h1>
+    <h1>Conquista ogni donna in <span class="red">90 secondi</span></h1>
     <div class="rule"></div>
-    <div class="subhead">Il metodo per decifrare il suo linguaggio del corpo</div>
-    <p style="text-align:center;color:var(--muted);font-size:13px;margin-top:8px;">📖 Basato su ricerche e studi sul comportamento non verbale.</p>
+    <div class="subhead">Come capire se le piaci prima ancora che lei te lo dica</div>
+    <p style="text-align:center;margin-top:14px;"><span style="display:inline-block;background:rgba(245,184,65,.12);border:1px solid var(--gold);color:var(--gold);font-size:13px;font-weight:600;padding:7px 15px;border-radius:999px;">📖 Basato su ricerche e studi sul comportamento non verbale</span></p>
 
     <img class="graphic" src="signals-alt.jpg" alt="I segnali del corpo che rivelano interesse">
 
+    <div class="timer">⏳ Offerta di lancio <b>-60%</b> · scade tra <span class="cd">10:00</span></div>
     <a class="cta" style="display:inline-block;width:auto;margin:16px auto 0;padding:14px 30px;font-size:16px;" href="https://buy.stripe.com/bJe3cvdgRdKJeMj8IV6wE04">Voglio leggere i segnali</a>
 
     <div class="card" style="margin-top:24px;text-align:left;">
@@ -95,6 +96,7 @@
 
     <div class="price-row"><span class="price-old">49,97€</span><span class="price">19,97€</span><span class="bdg">-60%</span></div>
     <p class="reassure">2 ebook PDF · download immediato</p>
+    <div class="timer">⏳ Offerta di lancio <b>-60%</b> · scade tra <span class="cd">10:00</span></div>
     <a class="cta" href="https://buy.stripe.com/bJe3cvdgRdKJeMj8IV6wE04">Voglio leggere i segnali</a>
     <div class="proof"><span class="stars">★★★★★</span> &nbsp;<b>Già letto da oltre 1.000 uomini</b></div>
     <div class="pay"><span>VISA</span><span>MASTERCARD</span><span>PAYPAL</span><span>APPLE PAY</span></div>
@@ -161,7 +163,7 @@
     </div>
     <div class="guar"><b>🔒 Zero rischi</b>Contenuti digitali con consegna immediata. Pagamento sicuro con Stripe, PayPal, Apple Pay.</div>
     <p class="closing" style="margin-top:24px;">Il suo corpo ti sta<br><span class="gold">già parlando.</span></p>
-    <div class="timer">⏳ Offerta di lancio <b>-60%</b> · scade tra <span class="cd">60:00</span></div>
+    <div class="timer">⏳ Offerta di lancio <b>-60%</b> · scade tra <span class="cd">10:00</span></div>
     <a class="cta" href="https://buy.stripe.com/bJe3cvdgRdKJeMj8IV6wE04">Voglio leggere i segnali</a>
   </div>
 </section>
@@ -178,13 +180,8 @@
   </div>
 </section>
 
-<div class="sticky">
-  <div class="sp"><s>49,97€</s> <b>19,97€</b><div class="st">⏳ <span class="cd">60:00</span></div></div>
-  <a href="https://buy.stripe.com/bJe3cvdgRdKJeMj8IV6wE04">Voglio leggere i segnali</a>
-</div>
-
 <script>
-(function(){var dl=Date.now()+60*60*1000;function pad(n){return(n<10?'0':'')+n;}
+(function(){var dl=Date.now()+10*60*1000;function pad(n){return(n<10?'0':'')+n;}
 function tick(){var rem=dl-Date.now(),els=document.querySelectorAll('.cd');
 if(rem<=0){els.forEach(function(e){e.textContent='00:00';});return false;}
 var m=Math.floor(rem/60000),s=Math.floor((rem%60000)/1000);
