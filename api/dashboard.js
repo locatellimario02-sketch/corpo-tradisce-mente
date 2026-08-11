@@ -257,6 +257,7 @@ module.exports = async (req, res) => {
     .sort((a, b) => b.created - a.created);
   const totalCheckouts = rows.length + abandoned.length;
   const completionRate = totalCheckouts ? Math.round((rows.length / totalCheckouts) * 100) : 0;
+  const abandonRate = totalCheckouts ? Math.round((abandoned.length / totalCheckouts) * 100) : 0;
   const statusLabel = (s) =>
     s.status === 'expired' ? 'scaduto' : s.status === 'open' ? 'aperto' : 'incompleto';
   const abRows = abandoned
@@ -387,11 +388,13 @@ module.exports = async (req, res) => {
     <div class="card">
       <h2>Checkout (funnel)</h2>
       <table>
+        <tr><td>Sessioni checkout</td><td class="num">${totalCheckouts}</td></tr>
         <tr><td>Completati (pagati)</td><td class="num amt">${rows.length}</td></tr>
         <tr><td>Abbandonati</td><td class="num">${abandoned.length}</td></tr>
-        <tr><td>Tasso di completamento</td><td class="num" style="color:var(--signal);font-weight:800;">${completionRate}%</td></tr>
+        <tr><td>Tasso di conversione</td><td class="num" style="color:var(--signal);font-weight:800;">${completionRate}%</td></tr>
+        <tr><td>Tasso di abbandono</td><td class="num" style="color:var(--ember);font-weight:800;">${abandonRate}%</td></tr>
       </table>
-      <div class="note">"Abbandonati" = ha aperto il link di pagamento ma non ha completato l'acquisto.</div>
+      <div class="note">Sessioni = quante volte è stato aperto il pagamento. "Abbandonati" = aperto ma non completato. Conversione + abbandono = 100%.</div>
     </div>
     <div class="card">
       <h2>Ultimi checkout abbandonati (max 40)</h2>
