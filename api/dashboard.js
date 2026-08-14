@@ -338,6 +338,10 @@ module.exports = async (req, res) => {
     )
     .sort((a, b) => b.created - a.created);
   const totalCheckouts = rows.length + abandoned.length;
+  // Ogni sessione di checkout mai creata sul/i payment link (senza filtro data né stato).
+  const totalSessionsAll = sessions.filter(
+    (s) => !s.payment_link || linkSet.has(s.payment_link)
+  ).length;
   const completionRate = totalCheckouts ? Math.round((rows.length / totalCheckouts) * 100) : 0;
   const abandonRate = totalCheckouts ? Math.round((abandoned.length / totalCheckouts) * 100) : 0;
   const statusLabel = (s) =>
@@ -470,13 +474,14 @@ module.exports = async (req, res) => {
     <div class="card">
       <h2>Checkout (funnel)</h2>
       <table>
-        <tr><td>Sessioni checkout</td><td class="num">${totalCheckouts}</td></tr>
+        <tr><td>Sessioni totali (da sempre)</td><td class="num" style="font-weight:800;">${totalSessionsAll}</td></tr>
+        <tr><td>Sessioni checkout (dal ${dmy(CUTOFF).slice(0, 10)})</td><td class="num">${totalCheckouts}</td></tr>
         <tr><td>Completati (pagati)</td><td class="num amt">${rows.length}</td></tr>
         <tr><td>Abbandonati</td><td class="num">${abandoned.length}</td></tr>
         <tr><td>Tasso di conversione</td><td class="num" style="color:var(--signal);font-weight:800;">${completionRate}%</td></tr>
         <tr><td>Tasso di abbandono</td><td class="num" style="color:var(--ember);font-weight:800;">${abandonRate}%</td></tr>
       </table>
-      <div class="note">Sessioni = quante volte è stato aperto il pagamento. "Abbandonati" = aperto ma non completato. Conversione + abbandono = 100%.</div>
+      <div class="note">Sessioni = quante volte è stato aperto il pagamento. "Sessioni totali" include tutto (anche prima del ${dmy(CUTOFF).slice(0, 10)}), fino a ~${MAX_PAGES * 100} per link. Conversione/abbandono calcolati sul periodo dal ${dmy(CUTOFF).slice(0, 10)}.</div>
     </div>
     <div class="card">
       <h2>Ultimi checkout abbandonati (max 40)</h2>
