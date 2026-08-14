@@ -15,24 +15,69 @@ const MAX_PAGES = 3; // pages of 100 sessions per payment link
 // (= 06/08/2026 22:00 UTC). Override with DASHBOARD_SINCE_UNIX if needed.
 const CUTOFF = Number(process.env.DASHBOARD_SINCE_UNIX) || Math.floor(Date.UTC(2026, 7, 6, 22, 0, 0) / 1000);
 
-function requireAuth(res) {
-  res.setHeader('WWW-Authenticate', 'Basic realm="Dashboard", charset="UTF-8"');
-  res.status(401).send('Autenticazione richiesta');
+const crypto = require('crypto');
+
+// Cookie token derived from the password, so the plaintext is never stored in
+// the browser cookie. Changing the password invalidates existing cookies.
+function authToken(expected) {
+  return crypto.createHash('sha256').update('dash-v1:' + expected).digest('hex');
+}
+
+function getCookie(req, name) {
+  const h = req.headers.cookie || '';
+  const m = h.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+  return m ? decodeURIComponent(m[1]) : null;
+}
+
+function readBody(req) {
+  return new Promise((resolve) => {
+    let b = '';
+    req.on('data', (c) => (b += c));
+    req.on('end', () => resolve(b));
+    req.on('error', () => resolve(''));
+  });
 }
 
 function isAuthorized(req) {
   const expected = (process.env.DASHBOARD_PASSWORD || '').trim();
   if (!expected) return false;
+  // Preferred: signed cookie set after login.
+  if (getCookie(req, 'dash') === authToken(expected)) return true;
+  // Legacy: HTTP Basic Auth (so old bookmarks with embedded credentials work).
   const header = req.headers['authorization'] || '';
-  if (!header.startsWith('Basic ')) return false;
-  let decoded = '';
-  try {
-    decoded = Buffer.from(header.slice(6), 'base64').toString('utf8');
-  } catch (e) {
-    return false;
+  if (header.startsWith('Basic ')) {
+    try {
+      const decoded = Buffer.from(header.slice(6), 'base64').toString('utf8');
+      if (decoded.slice(decoded.indexOf(':') + 1) === expected) return true;
+    } catch (e) {}
   }
-  const pass = decoded.slice(decoded.indexOf(':') + 1);
-  return pass === expected;
+  return false;
+}
+
+function loginPage(msg) {
+  return `<!doctype html><html lang="it"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Dashboard · Accesso</title>
+<style>
+  *{box-sizing:border-box} body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;background:#0b0b0d;color:#f2ece7;display:flex;min-height:100vh;align-items:center;justify-content:center;padding:20px}
+  .box{width:100%;max-width:360px;background:#151518;border:1px solid #26262b;border-radius:14px;padding:28px 24px}
+  h1{font-size:19px;margin:0 0 4px} p.s{margin:0 0 20px;color:#9a938c;font-size:13px}
+  label{display:block;font-size:13px;color:#c9c2bb;margin:0 0 6px}
+  input[type=password]{width:100%;padding:12px 14px;border-radius:10px;border:1px solid #33333a;background:#0e0e11;color:#fff;font-size:15px}
+  .row{display:flex;align-items:center;gap:8px;margin:14px 0 20px;font-size:14px;color:#c9c2bb}
+  .row input{width:16px;height:16px;accent-color:#F5B841}
+  button{width:100%;padding:12px;border:0;border-radius:10px;background:#F5B841;color:#111;font-weight:700;font-size:15px;cursor:pointer}
+  .err{background:rgba(228,52,47,.12);border:1px solid #E4342F;color:#ffb3b0;font-size:13px;padding:9px 12px;border-radius:9px;margin:0 0 16px}
+</style></head><body>
+  <form class="box" method="POST" action="/api/dashboard">
+    <h1>Dashboard vendite</h1>
+    <p class="s">Area riservata</p>
+    ${msg ? `<div class="err">${msg}</div>` : ''}
+    <label for="pw">Password</label>
+    <input id="pw" name="pw" type="password" autofocus autocomplete="current-password" required>
+    <div class="row"><input id="r" name="remember" type="checkbox" checked><label for="r" style="margin:0">Ricordati di me (30 giorni)</label></div>
+    <button type="submit">Entra</button>
+  </form>
+</body></html>`;
 }
 
 // Fetch paid Checkout Sessions for a payment link. `expand` toggles pulling the
@@ -107,7 +152,44 @@ function csvCell(v) {
 }
 
 module.exports = async (req, res) => {
-  if (!isAuthorized(req)) return requireAuth(res);
+  const expected = (process.env.DASHBOARD_PASSWORD || '').trim();
+
+  // --- Login handling: password via ?pw= (auto-login link) or POST form ---
+  const q = new URL(req.url, 'http://x').searchParams;
+  let submittedPw = null;
+  let remember = false;
+  if (q.get('pw') != null) {
+    submittedPw = q.get('pw');
+    remember = q.get('remember') === '1' || q.get('remember') === 'on';
+  } else if (req.method === 'POST') {
+    const body = await readBody(req);
+    const p = new URLSearchParams(body);
+    submittedPw = p.get('pw');
+    remember = p.get('remember') === 'on' || p.get('remember') === '1';
+  }
+  if (submittedPw != null) {
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    if (expected && submittedPw === expected) {
+      let cookie =
+        'dash=' + authToken(expected) +
+        '; Path=/api/dashboard; HttpOnly; Secure; SameSite=Lax';
+      if (remember) cookie += '; Max-Age=' + 60 * 60 * 24 * 30; // 30 giorni
+      res.setHeader('Set-Cookie', cookie);
+      res.statusCode = 302;
+      res.setHeader('Location', '/api/dashboard');
+      res.end();
+      return;
+    }
+    res.status(401).send(loginPage('Password errata.'));
+    return;
+  }
+
+  // --- Gate ---
+  if (!isAuthorized(req)) {
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.status(401).send(loginPage(''));
+    return;
+  }
 
   const key = (process.env.STRIPE_SECRET_KEY || '').trim();
   if (!key) {
